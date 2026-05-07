@@ -1,10 +1,10 @@
-import * as campaignRepo from '../repo/campaignRepo';
-import { ApiError } from '../middlewares/errorHandler';
-import type { CampaignType } from '../types/campaignType';
+import * as campaignRepo from '../repo/campaignRepo.js';
+import { ApiError } from '../middlewares/errorHandler.js';
+import type { CampaignType } from '../types/campaignType.js';
 const fetchCampaigns=async()=>{
    const campaigns=await campaignRepo.showAllCampaings();
-   if (!campaigns.length) {
-    throw new ApiError(404,'Menu not found');
+   if (!campaigns) {
+    throw new ApiError(404,'Campaign not found');
    }
    return campaigns;
 }

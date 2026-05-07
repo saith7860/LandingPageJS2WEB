@@ -1,6 +1,6 @@
 import { Request,Response,NextFunction } from "express"
 import mongoose, { Types } from "mongoose";
-import * as campaignService from '../service/campaignService';
+import * as campaignService from '../service/campaignService.js';
 
 const getAllCampaigns=async(req:Request,res:Response,next:NextFunction)=>{
     try {

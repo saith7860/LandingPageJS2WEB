@@ -1,5 +1,5 @@
-import Campaign from "../models/campaignModel";
-import type { CampaignType } from "../types/campaignType";
+import Campaign from "../models/campaignModel.js";
+import type { CampaignType } from "../types/campaignType.js";
 const showAllCampaings=async()=>{
     return await Campaign.find({});
    

@@ -1,6 +1,4 @@
-
-
-export type Lead= {
+export type LeadType= {
   name: string;
   email: string;
 }
