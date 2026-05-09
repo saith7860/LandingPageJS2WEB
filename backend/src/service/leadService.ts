@@ -1,17 +1,41 @@
 import { ApiError } from "../middlewares/errorHandler.js";
+import crypto from "crypto";
 import * as leadRepo from '../repo/leadRepo.js';
 import * as campaignRepo from '../repo/campaignRepo.js';
 import { LeadType } from "../types/leadType.js";
+import sendEmail from "../utils/Email.config.js";
 const createUser = async (data:LeadType) => {
   const {slug}=data;
   const findCampaign=await campaignRepo.showSpecificCampaign(slug);
   if (!findCampaign) {
     throw new ApiError(404,'Campaign not found');
   } 
-    const newUser = await leadRepo.create(data,findCampaign._id);
+  const token = crypto.randomBytes(32).toString("hex");
+  const verificationTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    const newUser = await leadRepo.create({...data,verificationToken:token,verificationTokenExpires},findCampaign._id);
     if (!newUser) {
       throw new ApiError(500, "Interval erver Error!User not created");
     }
+    // verification link
+  const verificationLink =
+    `${process.env.FRONTEND_URL}/verify-email/${token}`;
+
+  // send email
+  await sendEmail({
+    to: newUser.email,
+    subject: "Verify your email",
+    html: `
+      <h2>Verify your email</h2>
+
+      <p>
+        Click the button below to access your resource.
+      </p>
+
+      <a href="${verificationLink}">
+        Verify Email
+      </a>
+    `
+  });
     return newUser;
   }
 const fetchAllLeads=async()=>{
