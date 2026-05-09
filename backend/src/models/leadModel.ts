@@ -16,7 +16,6 @@ const leadSchema = new mongoose.Schema(
     campaign: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Campaign",
-      required: true,
     },
 
     isVerified: {

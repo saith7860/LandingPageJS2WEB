@@ -5,7 +5,7 @@ const showAllCampaings=async()=>{
    
 } 
 const showSpecificCampaign=async(id:string)=>{
-    return await Campaign.findById(id);
+    return await Campaign.findOne({slug:id});
 }
 const createCampaign=async(data:CampaignType)=>{
   const newCategory=new Campaign(data);

@@ -1,10 +1,16 @@
 import { ApiError } from "../middlewares/errorHandler.js";
 import * as leadRepo from '../repo/leadRepo.js';
+import * as campaignRepo from '../repo/campaignRepo.js';
 import { LeadType } from "../types/leadType.js";
 const createUser = async (data:LeadType) => {
-    const newUser = await leadRepo.create(data);
+  const {slug}=data;
+  const findCampaign=await campaignRepo.showSpecificCampaign(slug);
+  if (!findCampaign) {
+    throw new ApiError(404,'Campaign not found');
+  } 
+    const newUser = await leadRepo.create(data,findCampaign._id);
     if (!newUser) {
-      throw new ApiError(500, "Interval Server Error!User not created");
+      throw new ApiError(500, "Interval erver Error!User not created");
     }
     return newUser;
   }

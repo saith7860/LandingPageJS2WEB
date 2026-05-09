@@ -1,6 +1,7 @@
 import * as campaignRepo from '../repo/campaignRepo.js';
 import { ApiError } from '../middlewares/errorHandler.js';
 import type { CampaignType } from '../types/campaignType.js';
+import sl from 'zod/v4/locales/sl.js';
 const fetchCampaigns=async()=>{
    const campaigns=await campaignRepo.showAllCampaings();
    if (!campaigns) {
@@ -16,6 +17,11 @@ const fetchSpecificCampaign=async(id:string)=>{
   return campaign;
 }
 const createCampaign=async(data:CampaignType)=>{
+  const {slug}=data;
+  const findCampaign=await campaignRepo.showSpecificCampaign(slug);
+  if (findCampaign) {
+    throw new ApiError(404,'Campaign already exists');
+  }
   const result= await campaignRepo.createCampaign(data);
   if (!result) {
     throw new ApiError(400,'Campaign not created')
