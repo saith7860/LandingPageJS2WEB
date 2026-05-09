@@ -17,11 +17,11 @@ const createUser = async (data:LeadType) => {
       throw new ApiError(500, "Interval erver Error!User not created");
     }
     // verification link
-  const verificationLink =
-    `${process.env.FRONTEND_URL}/verify-email/${token}`;
+  const verificationLink =`${process.env.BACKEND_URL}/api/lead/verify-email/${token}`;
+
 
   // send email
-  await sendEmail({
+  const emailResponse=await sendEmail({
     to: newUser.email,
     subject: "Verify your email",
     html: `
@@ -36,7 +36,10 @@ const createUser = async (data:LeadType) => {
       </a>
     `
   });
-    return newUser;
+   console.log(emailResponse);
+   
+  return newUser;
+    
   }
 const fetchAllLeads=async()=>{
   const leads=await leadRepo.getAllLeads();
@@ -44,6 +47,24 @@ const fetchAllLeads=async()=>{
     throw new ApiError(404,'No leads found');
   }
   return leads;
+}
+const verifyUser=async(token:string)=>{
+  const user=await leadRepo.findByToken(token);
+  if (!user) {
+    throw new ApiError(404,'User not found');
+  }
+  if(user.isVerified){
+    throw new ApiError(400,'User already verified');
+  }
+  if (user.verificationTokenExpires && user.verificationTokenExpires <new Date()) {
+    throw new ApiError(400,'Token expired');
+  }
+  user.isVerified=true;
+  user.verificationToken=null;
+  user.verificationTokenExpires=null;
+  user.verifiedAt=new Date();
+  await user.save();
+  return {user,resourceUrl:(user.campaign as any)?.resourceUrl};
 }
 // const loginUser = async (data: loginUserType) => {
 //     const {email,password}=data;
@@ -68,4 +89,4 @@ const fetchAllLeads=async()=>{
 //   }
 //   throw new ApiError(401,'Password does not match')
 // };
-export { createUser,fetchAllLeads };
+export { createUser,fetchAllLeads,verifyUser };

@@ -5,7 +5,7 @@ import validate from '../middlewares/validationMiddleware.js';
 import leadValidator from '../validators/leadValidator.js';
 // leadRouter.get("/",leadController.getAllLeads);
 leadRouter.post("/",validate(leadValidator),leadController.createLead);
-// leadRouter.post("/verify",leadController.verifyLead);
+leadRouter.get("/verify-email/:token",leadController.verifyLead);
 leadRouter.get("/",leadController.getAllLeads);
 
 export default leadRouter;

@@ -26,7 +26,17 @@ try {
     next(error)
 }
 }
-
+export const verifyLead=async(req:Request,res:Response,next:NextFunction)=>{
+try {
+   const token=req.params.token as string;
+   const result=await leadService.verifyUser(token);
+  return res.redirect(
+      result.resourceUrl
+   );
+} catch (error) {
+    next(error)
+}
+}
 // export const loginUser=async(req:Request,res:Response,next:NextFunction)=>{
 // try {
 //      const loginUserToken=await userService.loginUser(req.body);

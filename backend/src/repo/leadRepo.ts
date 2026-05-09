@@ -15,3 +15,7 @@ export const getAllLeads=async()=>{
   const leads=await Lead.find({}).populate("campaign", "title resourceUrl");
   return leads;
 } 
+export const findByToken=async(token:string)=>{
+  const user=await Lead.findOne({verificationToken:token}).populate("campaign");
+  return user;
+}
