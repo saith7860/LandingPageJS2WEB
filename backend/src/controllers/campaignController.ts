@@ -26,26 +26,40 @@ try {
 }
 const getSpecificCampaign=async(req:Request,res:Response,next:NextFunction)=>{
 try {
-   
+   const slug=req.query.slug as string;
+   const campaign=await campaignService.fetchSpecificCampaign(slug);
    return  res.json({
        success:true,
+       data:campaign
     })
 } catch (error) {
     next(error)
 }
 }
-const editCampaign=(req:Request,res:Response)=>{
+const editCampaign=async(req:Request,res:Response,next:NextFunction)=>{
 try {
-    
+    const slug  =req.query.slug as string;
+    const updatedCampaign=await campaignService.editCampaign(slug,req.body);
+    return res.json({
+        success:true,
+        message:"Campaign updated successfully",
+        data:updatedCampaign
+    })
 } catch (error) {
-    
+    next(error);
 }
 }
-const deleteCampaign=(req:Request,res:Response)=>{
+const deleteCampaign=async(req:Request,res:Response,next:NextFunction)=>{
 try {
-    
+    const slug=req.query.slug as string;
+    const deleteCampaign=await campaignService.deleteCampaign(slug);
+    return res.json({
+        success:true,
+        message:"Campaign updated successfully",
+        data:deleteCampaign
+    })
 } catch (error) {
-    
+    next(error);
 }
 }
 export {getAllCampaigns,getSpecificCampaign,postCampaign,editCampaign,deleteCampaign}

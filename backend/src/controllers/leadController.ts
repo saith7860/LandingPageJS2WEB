@@ -2,10 +2,11 @@ import { Request,Response,NextFunction } from "express"
 import * as leadService from "../service/leadService.js"
 export const createLead=async(req:Request,res:Response,next:NextFunction)=>{
 try {
-   await leadService.createUser(req.body);
+   const newLead=await leadService.createUser(req.body);
     return res.json({
       success: "true",
-      message:"User created successfully"
+      message:"User created successfully",
+      data:newLead
     });
    
        
@@ -13,6 +14,19 @@ try {
     next(error)
 }
 }
+export const getAllLeads=async(req:Request,res:Response,next:NextFunction)=>{
+try {
+   const leads=await leadService.fetchAllLeads();
+    return res.json({
+      success: "true",
+      message:"User fetched successfully",
+      data:leads
+    });
+} catch (error) {
+    next(error)
+}
+}
+
 // export const loginUser=async(req:Request,res:Response,next:NextFunction)=>{
 // try {
 //      const loginUserToken=await userService.loginUser(req.body);

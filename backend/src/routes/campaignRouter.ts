@@ -2,8 +2,8 @@ import express from 'express'
 const campaignRouter=express.Router();
 import * as campaignController from "../controllers/campaignController.js";
 campaignRouter.get("/",campaignController.getAllCampaigns);
-campaignRouter.get("/:id",campaignController.getSpecificCampaign);
+campaignRouter.get("/specific",campaignController.getSpecificCampaign);
 campaignRouter.post("/",campaignController.postCampaign);
-campaignRouter.put("/:id",campaignController.editCampaign);
-campaignRouter.delete("/:id",campaignController.deleteCampaign);
+campaignRouter.put("/specific",campaignController.editCampaign);
+campaignRouter.delete("/specific",campaignController.deleteCampaign);
 export default campaignRouter;

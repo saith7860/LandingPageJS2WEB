@@ -8,13 +8,33 @@ const fetchCampaigns=async()=>{
    }
    return campaigns;
 }
-
+const fetchSpecificCampaign=async(id:string)=>{
+  const campaign=await campaignRepo.showSpecificCampaign(id);
+  if (!campaign) {
+    throw new ApiError(404,'Campaign not found');
+  }
+  return campaign;
+}
 const createCampaign=async(data:CampaignType)=>{
   const result= await campaignRepo.createCampaign(data);
   if (!result) {
     throw new ApiError(400,'Campaign not created')
   }
   return result;
+}
+const deleteCampaign=async(id:string)=>{
+  const campaign=await campaignRepo.deleteCampaign(id);
+  if (!campaign) {
+    throw new ApiError(404,'Campaign not found');
+  }
+  return campaign;
+}
+const editCampaign=async(id:string,data:CampaignType)=>{
+  const campaign=await campaignRepo.updateCampaign(id,data);
+  if (!campaign) {
+    throw new ApiError(404,'Campaign not found');
+  }
+  return campaign;
 }
 // const getSpecificCategory=async(category:string)=>{
 
@@ -29,4 +49,4 @@ const createCampaign=async(data:CampaignType)=>{
     
 //     return specificData;
 // }
-export {fetchCampaigns,createCampaign}
+export {fetchCampaigns,fetchSpecificCampaign,createCampaign,deleteCampaign,editCampaign}

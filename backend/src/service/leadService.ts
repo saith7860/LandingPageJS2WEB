@@ -2,21 +2,19 @@ import { ApiError } from "../middlewares/errorHandler.js";
 import * as leadRepo from '../repo/leadRepo.js';
 import { LeadType } from "../types/leadType.js";
 const createUser = async (data:LeadType) => {
-  const {email } = data;
- console.log(data);
- 
-  const checkEmailExists = await leadRepo.isEmailExists(email);
-  if (checkEmailExists) {
-    throw new ApiError(409, "Email alrady exists");
-  } else {
-    
     const newUser = await leadRepo.create(data);
     if (!newUser) {
       throw new ApiError(500, "Interval Server Error!User not created");
     }
     return newUser;
   }
-};
+const fetchAllLeads=async()=>{
+  const leads=await leadRepo.getAllLeads();
+  if (!leads) {
+    throw new ApiError(404,'No leads found');
+  }
+  return leads;
+}
 // const loginUser = async (data: loginUserType) => {
 //     const {email,password}=data;
 //     const findUser=await userRepo.isEmailExists(email);
@@ -40,4 +38,4 @@ const createUser = async (data:LeadType) => {
 //   }
 //   throw new ApiError(401,'Password does not match')
 // };
-export { createUser };
+export { createUser,fetchAllLeads };
