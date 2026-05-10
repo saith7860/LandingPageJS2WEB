@@ -14,7 +14,7 @@ const LandingPage = () => {
   useEffect(() => {
     const fetchCampaign = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/campaign/specific?slug=${slug}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}api/campaign/specific?slug=${slug}`);
         const data = await response.json();
         
         if (data.success && data.data) {
