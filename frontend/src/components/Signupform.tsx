@@ -21,7 +21,7 @@ const SignupForm = ({ slug }: SignupFormProps) => {
     setMessage(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/lead', {
+      const response = await fetch('/api/lead', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ const SignupForm = ({ slug }: SignupFormProps) => {
         disabled={loading}
         className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded disabled:opacity-50"
       >
-        {loading ? 'Sending...' : 'Send Me the Roadmap'}
+        {loading ? 'Sending...' : 'Get the Resource'}
       </button>
 
       <p className="text-xs text-gray-400 mt-3">

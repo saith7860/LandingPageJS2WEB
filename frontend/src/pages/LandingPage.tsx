@@ -14,7 +14,7 @@ const LandingPage = () => {
   useEffect(() => {
     const fetchCampaign = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/campaign/specific?slug=${slug}`);
+        const response = await fetch(`/api/campaign/specific?slug=${slug}`);
         const data = await response.json();
         
         if (data.success && data.data) {
