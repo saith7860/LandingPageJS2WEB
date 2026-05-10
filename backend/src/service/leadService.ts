@@ -27,16 +27,16 @@ const createUser = async (data:LeadType) => {
   // send email
   const emailResponse=await sendEmail({
     to: newUser.email,
-    subject: "Verify your email",
+    subject: "Get the resource you requested",
     html: `
-      <h2>Verify your email</h2>
+      <h2>Get the resource you requested</h2>
 
       <p>
-        Click the button below to access your resource.
+        Thanks for signing up. Click the button below to access your resource.
       </p>
 
       <a href="${verificationLink}">
-        Verify Email
+        Access Resource
       </a>
     `
   });
