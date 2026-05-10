@@ -6,6 +6,10 @@ import { LeadType } from "../types/leadType.js";
 import sendEmail from "../utils/Email.config.js";
 const createUser = async (data:LeadType) => {
   const {slug}=data;
+  const user=await leadRepo.isEmailExists(data.email);
+  if (user) {
+    throw new ApiError(400,'User already exists');
+  } 
   const findCampaign=await campaignRepo.showSpecificCampaign(slug);
   if (!findCampaign) {
     throw new ApiError(404,'Campaign not found');
@@ -66,27 +70,5 @@ const verifyUser=async(token:string)=>{
   await user.save();
   return {user,resourceUrl:(user.campaign as any)?.resourceUrl};
 }
-// const loginUser = async (data: loginUserType) => {
-//     const {email,password}=data;
-//     const findUser=await userRepo.isEmailExists(email);
-//  if (!findUser || !findUser.password ||!findUser.email) {
-//   throw new ApiError(401,"Invalid credentials");
-// }
-//   const isMatch= await bcrypt.compare(password,findUser.password);
-//   if (isMatch) {
-//     //created payload
-//     const payload={
-//       email:findUser.email,
-//       password:findUser.password,
-//       role:findUser.role
-//     }
-//     //generate token
-//     const token= createToken(payload)
-//     if (token) {
-//       return token;
-//     }
-//     throw new ApiError(500,'Error in generating token');
-//   }
-//   throw new ApiError(401,'Password does not match')
-// };
+
 export { createUser,fetchAllLeads,verifyUser };

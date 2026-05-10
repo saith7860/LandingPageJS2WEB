@@ -1,8 +1,14 @@
+import { Routes, Route } from "react-router";
 import LandingPage from "./pages/LandingPage";
+import NotFound from "./pages/NotFound";
+
 const App = () => {
   return (
     <div>
-      <LandingPage/>
+      <Routes>
+        <Route path="/:slug" element={<LandingPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </div>
   )
 }
